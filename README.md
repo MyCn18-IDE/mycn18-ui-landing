@@ -15,9 +15,9 @@ Utiliza el *framework* **Astro** para renderizar la mayor parte del contenido co
 
 **Funciones Clave:**
 
-  * **Velocidad:** Rendimiento líder en la industria para el *Initial Load*.
-  * **SEO:** Código fuente limpio y optimizado para los *crawlers* de búsqueda.
-  * **Integración Parcial:** Utiliza "Islas" de React para la funcionalidad interactiva esencial (ej. formularios) sin sacrificar la velocidad del sitio estático.
+* **Velocidad:** Rendimiento líder en la industria para el *Initial Load*.
+* **SEO:** Código fuente limpio y optimizado para los *crawlers* de búsqueda.
+* **Integración Parcial:** Utiliza "Islas" de React para la funcionalidad interactiva esencial (ej. formularios) sin sacrificar la velocidad del sitio estático.
 
 -----
 

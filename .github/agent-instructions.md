@@ -8,22 +8,22 @@ MyCn18 es una Plataforma de Desarrollo de Software No-Code/Low-Code universal y 
 
 ## II. Rol y Responsabilidad del Repositorio
 
-  - Este es el **Sitio Web Principal (Landing Page)** para el dominio Studio. Su rol es puramente de **Marketing, Adquisición de Usuarios y SEO**.
-  - **Funciones Clave:** **Velocidad de Carga Extrema** (Core Web Vitals), **Contenido Estático** y la funcionalidad de **Call to Action (CTA)** para el registro y el acceso al Studio.
-  - **Tipo de repo:** `UI` (Frontend de contenido estático).
-  - **Stack Sugerido:** **Astro**. Su arquitectura de *Islands* permite un HTML/CSS estático ultrarrápido con **cero JavaScript** por defecto, usando React solo para componentes interactivos clave. Esto asegura la máxima puntuación de SEO.
-  - **Meta Final:** Archivos Estáticos (`.html`, `.css`, `.js` mínimo) listos para ser servidos por una CDN.
+- Este es el **Sitio Web Principal (Landing Page)** para el dominio Studio. Su rol es puramente de **Marketing, Adquisición de Usuarios y SEO**.
+- **Funciones Clave:** **Velocidad de Carga Extrema** (Core Web Vitals), **Contenido Estático** y la funcionalidad de **Call to Action (CTA)** para el registro y el acceso al Studio.
+- **Tipo de repo:** `UI` (Frontend de contenido estático).
+- **Stack Sugerido:** **Astro**. Su arquitectura de *Islands* permite un HTML/CSS estático ultrarrápido con **cero JavaScript** por defecto, usando React solo para componentes interactivos clave. Esto asegura la máxima puntuación de SEO.
+- **Meta Final:** Archivos Estáticos (`.html`, `.css`, `.js` mínimo) listos para ser servidos por una CDN.
 
 -----
 
 ## III. Licenciamiento y Dependencias
 
-  * **Licencia del Código:** MIT
-  * **Servicios que Consume (Dependencias Críticas):**
-      * **Ninguno directo** (es estático).
-      * **APIs indirectas:** Un componente React de registro podría consumir el endpoint de `Sign Up` de `mycn18-core-full-iam`.
-  * **Servicios que Alimenta (Salidas):**
-      * Ninguno. Su única salida es redirigir al usuario al `mycn18-studio-ui-flows`.
+- **Licencia del Código:** MIT
+- **Servicios que Consume (Dependencias Críticas):**
+  - **Ninguno directo** (es estático).
+  - **APIs indirectas:** Un componente React de registro podría consumir el endpoint de `Sign Up` de `mycn18-core-full-iam`.
+- **Servicios que Alimenta (Salidas):**
+  - Ninguno. Su única salida es redirigir al usuario al `mycn18-studio-ui-flows`.
 
 -----
 
@@ -31,10 +31,10 @@ MyCn18 es una Plataforma de Desarrollo de Software No-Code/Low-Code universal y 
 
 El objetivo de la Visión 1.0 es tener una *landing page* de alto impacto que comunique la propuesta de valor de MyCn18 y dirija a los usuarios al registro.
 
-1.  **Máxima Velocidad:** Lograr una puntuación de rendimiento de 95+ en Core Web Vitals (Lighthouse).
-2.  **Estructura de Contenido:** Implementar las secciones clave (Propuesta de Valor, Características, Testimonios, CTA).
-3.  **Formulario de Registro:** Implementar el componente de *Sign Up* interactivo usando una isla de React.
-4.  **SEO Robusto:** Configurar *sitemaps*, metatags y esquema JSON-LD para los motores de búsqueda.
+1. **Máxima Velocidad:** Lograr una puntuación de rendimiento de 95+ en Core Web Vitals (Lighthouse).
+2. **Estructura de Contenido:** Implementar las secciones clave (Propuesta de Valor, Características, Testimonios, CTA).
+3. **Formulario de Registro:** Implementar el componente de *Sign Up* interactivo usando una isla de React.
+4. **SEO Robusto:** Configurar *sitemaps*, metatags y esquema JSON-LD para los motores de búsqueda.
 
 -----
 
