@@ -5,35 +5,49 @@ import { getLangFromUrl } from '@/i18n/utils';
 type Props = HTMLAttributes<'a'>;
 
 const { href, class: className, ...props } = Astro.props;
+
+const base = import.meta.env.BASE_URL;
 const lang = getLangFromUrl(Astro.url);
 
+// 1. Limpiamos el href de barras iniciales
+const cleanHref = String(href).startsWith('/') ? String(href).slice(1) : href;
+
+// 2. Construimos la URL base
+let finalHref = String(href).startsWith('http')
+  ? href 
+  : `${base}${cleanHref}`.replace(/\/+/g, '/');
+
+// 3. Forzamos el Trailing Slash si es una ruta interna y no tiene uno
+// Solo lo añadimos si no termina en / y no parece ser un archivo (no tiene punto al final)
+if (finalHref && !(finalHref as string).startsWith('http') && !(finalHref as string).endsWith('/') && !(finalHref as string).split('/').pop()?.includes('.')) {
+  finalHref += '/';
+}
+
 const pathname = Astro.url.pathname;
-const isActive = href === pathname || 
-                 href === pathname.replace(/\/$/, '') ||
-                 (href !== `/${lang}` && pathname.startsWith(String(href)));
+
+// 4. Lógica de isActive:
+// Comparamos el pathname actual con el finalHref, ambos normalizados con o sin barra.
+const normalizedPathname = pathname.endsWith('/') ? pathname : `${pathname}/`;
+const normalizedFinalHref = (finalHref as string).endsWith('/') ? finalHref : `${finalHref}/`;
+
+const isActive = normalizedPathname === normalizedFinalHref || 
+                (finalHref !== `${base}${lang}/` && pathname.startsWith((finalHref as string)));
 ---
 
 <a 
-    href={href} 
-    class:list={[
-        className, 
-        'inline-block no-underline border-b-2 transition-all duration-300 py-1 text-sm font-medium hover:text-accent',
-        { 'active-link border-accent font-bold': isActive },
-        { 'text-mono-gray border-transparent': !isActive }
-    ]} 
-    {...props}
+  href={finalHref} 
+  class:list={[
+    className, 
+    'inline-block no-underline border-b-2 transition-all duration-300 py-1 text-sm font-medium hover:text-accent',
+    { 'active-link border-accent font-bold': isActive },
+    { 'text-mono-gray border-transparent': !isActive }
+  ]} 
+  {...props}
 >
-    <slot />
+  <slot />
 </a>
 
 <style>
-    /* Link inactivo (gris) */
-    a:not(.active-link) {
-        color: var(--color-mono-gray);
-    }
-
-    /* Link activo (negro/blanco según tema) */
-    .active-link {
-        color: var(--text-main);
-    }
+  .active-link { color: var(--text-main); }
+  a:not(.active-link) { color: var(--color-mono-gray); }
 </style>

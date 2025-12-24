@@ -13,11 +13,12 @@ type Props = {
 const { title, items, rootPath } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const base = import.meta.env.BASE_URL;
 
+// Genera la ruta completa incluyendo el base del repo y el idioma
 const formatHref = (itemHref: string) => {
-  const cleanRootPath = rootPath.startsWith('/') ? rootPath.slice(1) : rootPath;
-  const cleanHref = itemHref.startsWith('/') ? itemHref.slice(1) : itemHref;
-  return `/${lang}/${cleanRootPath}/${cleanHref}`;
+  const path = `${base}/${lang}/${rootPath}/${itemHref}/`.replace(/\/+/g, '/');
+  return path;
 };
 ---
 
@@ -27,15 +28,11 @@ const formatHref = (itemHref: string) => {
     class="flex items-center gap-1 py-1 text-mono-black dark:text-white transition-colors duration-500 hover:text-accent font-medium cursor-default"
   >
     {title}
-    <Icon 
-      name={iconMap['chevron-down']} 
-      class="h-4 w-4 transition-transform duration-300 group-hover:rotate-180" 
-    />
+    <Icon name={iconMap['chevron-down']} class="h-4 w-4 transition-transform duration-300 group-hover:rotate-180" />
   </button>
 
   <div
     class="invisible absolute -left-4 top-full z-50 mt-2 w-[400px] rounded-xl border shadow-2xl 
-           /* AQUÍ ESTÁ EL TRUCO: Usamos tus variables de base */
            opacity-0 translate-y-2 transition-all duration-300 ease-out
            group-hover:visible group-hover:opacity-100 group-hover:translate-y-0"
     style="background-color: var(--bg-app); border-color: var(--border-main);"
@@ -44,15 +41,10 @@ const formatHref = (itemHref: string) => {
       {items.map((item) => (
         <a
           href={formatHref(item.href)}
-          class="group/item flex items-start gap-3 rounded-lg p-3 transition-all duration-300 
-                 hover:bg-mono-lighter/20 dark:hover:bg-mono-dark/40"
+          class="group/item flex items-start gap-3 rounded-lg p-3 transition-all duration-300 hover:bg-mono-lighter/20 dark:hover:bg-mono-dark/40"
         >
-          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg 
-                      bg-mono-lighter dark:bg-mono-dark transition-colors duration-500">
-            <Icon 
-              name={iconMap[item.icon]} 
-              class="h-5 w-5 text-mono-black dark:text-white" 
-            />
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-mono-lighter dark:bg-mono-dark transition-colors duration-500">
+            <Icon name={iconMap[item.icon] || 'heroicons:cube'} class="h-5 w-5 text-mono-black dark:text-white" />
           </div>
 
           <div class="flex flex-col text-left">

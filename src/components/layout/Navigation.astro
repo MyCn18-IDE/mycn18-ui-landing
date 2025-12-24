@@ -10,14 +10,18 @@ import { useTranslations, getLangFromUrl } from '@/i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const base = import.meta.env.BASE_URL;
+
+// Helper para construir rutas con base e idioma
+const getI18nPath = (path: string) => `${base}/${lang}/${path}`.replace(/\/+/g, '/');
 
 const ctaConfig = {
-  href: `/${lang}/${NAVIGATION_CONFIG.cta.href}`,
+  href: getI18nPath(NAVIGATION_CONFIG.cta.href),
   label: t(NAVIGATION_CONFIG.cta.translationKey)
 };
 
 const loginConfig = {
-  href: NAVIGATION_CONFIG.login.href,
+  href: NAVIGATION_CONFIG.login.href, // Suele ser externo o #
   label: t(NAVIGATION_CONFIG.login.translationKey)
 };
 ---
@@ -26,7 +30,7 @@ const loginConfig = {
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="flex h-16 items-center justify-between">
       
-      <a href={`/${lang}`} class="text-mono-black text-xl font-bold dark:text-white transition-colors">
+      <a href={getI18nPath('/')} class="text-mono-black text-xl font-bold dark:text-white transition-colors">
         {t(SITE_CONFIG.title)}<span class="text-accent">.</span>
       </a>
 
@@ -39,7 +43,7 @@ const loginConfig = {
               rootPath={link.href}
             />
           ) : (
-            <HeaderLink href={`/${lang}/${link.href}`}>
+            <HeaderLink href={`${lang}/${link.href}`}>
               {t(link.translationKey)}
             </HeaderLink>
           )
@@ -60,7 +64,7 @@ const loginConfig = {
 
       <div class="flex items-center gap-4 md:hidden">
         <ThemeSelector />
-        <button id="mobileMenuButton" class="text-mono-black dark:text-white p-2" aria-expanded="false">
+        <button id="mobileMenuButton" class="text-mono-black dark:text-white p-2">
           <Icon name="heroicons:bars-3" class="h-6 w-6" />
         </button>
       </div>
@@ -77,7 +81,7 @@ const loginConfig = {
           {link.drop && (
             <div class="ml-4 mt-1 flex flex-col space-y-3 border-l-2 border-mono-lighter pl-4 dark:border-mono-dark">
               {link.items?.map((item) => (
-                <a href={`/${lang}/${link.href}/${item.href}`} class="text-sm text-mono-dark dark:text-mono-light hover:text-accent transition-colors">
+                <a href={getI18nPath(`${link.href}/${item.href}`)} class="text-sm text-mono-dark dark:text-mono-light hover:text-accent transition-colors">
                   {t(item.title)}
                 </a>
               ))}
@@ -85,19 +89,13 @@ const loginConfig = {
           )}
         </div>
       ))}
-      
       <hr class="border-mono-lighter dark:border-mono-dark" />
-      
       <div class="flex flex-col gap-4 py-2">
         <div class="flex justify-between items-center">
              <LanguageSelector />
-             <a href={loginConfig.href} class="font-medium text-mono-dark dark:text-mono-light underline underline-offset-4">
-                {loginConfig.label}
-             </a>
+             <a href={loginConfig.href} class="..."> {loginConfig.label} </a>
         </div>
-        <a href={ctaConfig.href} class="bg-accent rounded-lg px-6 py-3 text-center text-white font-bold shadow-lg">
-           {ctaConfig.label}
-        </a>
+        <a href={ctaConfig.href} class="bg-accent rounded-lg px-6 py-3 text-center text-white font-bold"> {ctaConfig.label} </a>
       </div>
     </div>
   </div>
@@ -105,14 +103,10 @@ const loginConfig = {
 
 <script>
   const initMenu = () => {
-    const mobileMenuButton = document.getElementById('mobileMenuButton');
-    const mobileMenu = document.getElementById('mobileMenu');
-    if (mobileMenuButton && mobileMenu) {
-      mobileMenuButton.addEventListener('click', () => {
-        const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
-        mobileMenuButton.setAttribute('aria-expanded', String(!isExpanded));
-        mobileMenu.classList.toggle('hidden');
-      });
+    const btn = document.getElementById('mobileMenuButton');
+    const menu = document.getElementById('mobileMenu');
+    if (btn && menu) {
+      btn.onclick = () => menu.classList.toggle('hidden');
     }
   };
   document.addEventListener('astro:page-load', initMenu);

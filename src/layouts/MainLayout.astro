@@ -5,6 +5,7 @@ import Navigation from '@/components/layout/Navigation.astro';
 import Footer from '@/components/layout/Footer.astro';
 import Orb from '@/components/islands/Orb';
 import '@/styles/globals.css';
+import Breadcrumbs from '@/components/layout/seo/Breadcrumbs.astro';
 
 interface Props {
   title?: string;
@@ -60,6 +61,7 @@ const t = useTranslations(lang);
     <Navigation /> 
     
     <main>
+      <Breadcrumbs />
       <slot /> 
     </main>
 
